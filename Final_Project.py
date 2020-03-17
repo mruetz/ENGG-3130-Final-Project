@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 from itertools import combinations 
 
-# Import MapQuest API Libraries
+# Import MapQuest API Libraries from https://github.com/MapQuest/directions-api-python-client somehow
 from RouteOptions import RouteOptions
 from AdvancedRouteOptions import AdvancedRouteOptions
 from RouteShapeOptions import RouteShapeOptions
