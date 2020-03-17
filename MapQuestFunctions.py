@@ -19,23 +19,23 @@ if __name__ == '__main__':
     multi_location_list = ['Lancaster, PA', 'State College, PA', 'York, PA']
 
     # directions
-    dirRoute1 = service.directions(locations=['Lancaster, PA', 'York, PA'])
+    dirRoute1 = RouteService.directions(locations=['Lancaster, PA', 'York, PA'])
 
-    dirRoute2 = service.directions(locations=['Lancaster, PA', 'York, PA'], options=options)
+    dirRoute2 = RouteService.directions(locations=['Lancaster, PA', 'York, PA'], options=options)
 
-    dirRoute3 = service.directions(locations=location_list)
+    dirRoute3 = RouteService.directions(locations=location_list)
     
-    multiDirRoute = service.directions(locations=multi_location_list, options=options)
+    multiDirRoute = RouteService.directions(locations=multi_location_list, options=options)
     
     # alternate route
     
     #This function can be used to get a SET of possible routes, which can be compared using
     #additional factors like load weight applied.
-    altRoute = service.alternateRoute(locations=['Lancaster, PA', 'York, PA'])
-    altRouteWithOptions = service.alternateRoute(locations=['Lancaster, PA', 'York, PA'], maxRoutes=2, timeOverage=26)
+    altRoute = RouteService.alternateRoute(locations=['Lancaster, PA', 'York, PA'])
+    altRouteWithOptions = RouteService.alternateRoute(locations=['Lancaster, PA', 'York, PA'], maxRoutes=2, timeOverage=26)
     
-    altRouteWithDefaultOptions = service.alternateRoute(locations=locations, options=options)
-    altRouteWithDefaultAndCustomOpts = service.alternateRoute(locations=locations, maxRoutes=2, timeOverage=26, options=options)
+    altRouteWithDefaultOptions = RouteService.alternateRoute(locations=locations, options=options)
+    altRouteWithDefaultAndCustomOpts = RouteService.alternateRoute(locations=locations, maxRoutes=2, timeOverage=26, options=options)
 
 
     # route matrix
@@ -43,5 +43,5 @@ if __name__ == '__main__':
     #This function can create a MATRIX of distances between points in the locations.
     #Each ROW and COL in the matrix can be multiplied by the factor of how important
     #the load weight is, multiplied by the specific load weight for that drop.
-    routeMatrix = service.routeMatrix(locations=locations,allToAll=True)
+    routeMatrix = RouteService.routeMatrix(locations=locations,allToAll=True)
 
