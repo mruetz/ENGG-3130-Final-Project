@@ -13,7 +13,7 @@ Route Optimization for Shipping Companies
 
 4.) Explore effect of different shortest path algorithms
 
-5.) Explore effect of different factors
+5.) Explore effect of different factors (Want to reduce average path length of the network, examine longest and shortest path as well?)
 
 ## Potential References
 The complex network of global cargo ship movements
