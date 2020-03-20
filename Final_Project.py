@@ -17,31 +17,45 @@ from RouteService import RouteService
 from openpyxl import Workbook
 from openpyxl import load_workbook
 
-%matplotlib inline
+#%matplotlib inline
 
-wb = load_workbook('FILE_NAME', read_only=False, keep_vba=True)
+data_file = "./data/1_02.xlsm"
+
+wb = load_workbook(data_file, read_only=False, keep_vba=True)
 ws = wb.active
 deliveries = {}
 load_weights = []
 
+options = RouteOptions()
+service = RouteService('dAGkCaPVqA3OcC5ws2Lfv8wsR9ro45oe')
+# our key is "dAGkCaPVqA3OcC5ws2Lfv8wsR9ro45oe"
+
 for row in range(1, len(ws['A'])+1):
-	if ('delivery' in str(ws['J'+str(row)].value)):
-		if ws['A'+str(row)].value in deliveries.keys():
-			deliveries[ws['A'+str(row)].value].append(ws['R'+str(row)].value)
-		else:
-			deliveries[ws['A'+str(row)].value] = [ws['R'+str(row)].value]
-		load_weights.append(ws['AK'+str(row)].value)
+    if ('delivery' in str(ws['J'+str(row)].value)):
+        if ws['A'+str(row)].value in deliveries.keys():
+            deliveries[ws['A'+str(row)].value].append(ws['R'+str(row)].value)
+        else:
+            deliveries[ws['A'+str(row)].value] = [ws['R'+str(row)].value]
+        load_weights.append(ws['AK'+str(row)].value)
+
+one_truck_locations = deliveries[1646] #Enter number for truck to get locations for
+for loc in one_truck_locations:
+    print loc
+
 
 
 def get_weighted_dist_matrix(locations, loads, factor_weight):
 
-    route_matrix = service.routeMatrix(locations=locations, allToAll=true)
+    route_matrix = service.routeMatrix(locations=locations, allToAll=True)
+
+    print(route_matrix)
+
     dist_matrix = route_matrix['distance']
     weighted_dist_matrix = dist_matrix
 
     i = 0;
     for load_weight in loads:
-        weighted_dist_matrix[i] = dist_matrix[i]*load_weight*factor_weight
+        weighted_dist_matrix[i] = dist_matrix[i]*(1/load_weight)*factor_weight
         ++i
     return weighted_dist_matrix
 
@@ -55,13 +69,13 @@ def get_weighted_time_matrix(locations, loads, factor_weight):
 
     i = 0;
     for load_weight in loads:
-        weighted_time_matrix[i] = time_matrix[i] * load_weight * factor_weight
+        weighted_time_matrix[i] = time_matrix[i]*(1/load_weight)* factor_weight
         ++i
     return weighted_time_matrix
 
-
+"""
 def calc_edge(addr_1, addr_2, factor=None):
-	"""Calculate the edge weight based on certain factors"""
+	#Calculate the edge weight based on certain factors
 
 	service = RouteService('YOUR_MAPQUEST_DEVELOPER_API_KEY')
 	location_list=[addr_1, addr_2]
@@ -82,15 +96,7 @@ def calc_edge(addr_1, addr_2, factor=None):
 		# Mapquest distance from l1 to l2 
 		# Taking weight into account for fuel efficiency
 		# Use the weight_point_for_load() method
-	
-def weight_point_for_load(point):
-  """Takes a delivery destination. Incorporates
-  a load size based on a specified weighing factor. (changes the
-  effective distance from this point to all others)"""
-
-	load_factor_weight = 0.5 #experiment with different weights of this factor
-
-	return weighted_loc
+	"""
   
 def create_individual_driver_graphs(nodes):
 	G = nx.DiGraph()
@@ -105,3 +111,15 @@ def create_individual_driver_graphs(nodes):
 			G.add_edges_from(drive_times)
 	
 	# nx.shortest_path() investigation
+
+
+weighted_dist_matrix = get_weighted_dist_matrix(one_truck_locations, load_weights, 0.5)
+
+"Original Dist Matrix:"
+route_matrix = service.routeMatrix(locations=one_truck_locations, allToAll=true)
+print route_matrix
+#dist_matrix = route_matrix['distance']
+#print dist_matrix
+
+print "Weighted Dist Matrix:"
+print weighted_dist_matrix
