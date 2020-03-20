@@ -32,6 +32,34 @@ for row in range(1, len(ws['A'])+1):
 			deliveries[ws['A'+str(row)].value] = [ws['R'+str(row)].value]
 		load_weights.append(ws['AK'+str(row)].value)
 
+
+def get_weighted_dist_matrix(locations, loads, factor_weight):
+
+    route_matrix = service.routeMatrix(locations=locations, allToAll=true)
+    dist_matrix = route_matrix['distance']
+    weighted_dist_matrix = dist_matrix
+
+    i = 0;
+    for load_weight in loads:
+        weighted_dist_matrix[i] = dist_matrix[i]*load_weight*factor_weight
+        ++i
+    return weighted_dist_matrix
+
+
+def get_weighted_time_matrix(locations, loads, factor_weight):
+
+    route_matrix = service.routeMatrix(locations=locations, allToAll=true)
+
+    time_matrix = route_matrix['time']
+    weighted_time_matrix = time_matrix
+
+    i = 0;
+    for load_weight in loads:
+        weighted_time_matrix[i] = time_matrix[i] * load_weight * factor_weight
+        ++i
+    return weighted_time_matrix
+
+
 def calc_edge(addr_1, addr_2, factor=None):
 	"""Calculate the edge weight based on certain factors"""
 
